@@ -90,10 +90,64 @@
       background-color: #e8eaed;
       color: #3c4043;
     }
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: #2196F3;
+    }
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+    .toggle-label {
+      margin-left: 10px;
+    }
   </style>
 </head>
 <body>
   <h2>Multi-Site Price Analyzer</h2>
+  <div class="toggle-container">
+    <label class="toggle-switch">
+      <input type="checkbox" id="detectionModeToggle">
+      <span class="slider"></span>
+    </label>
+    <span class="toggle-label">Use Enhanced Detection</span>
+  </div>
   <button id="selectElement">Select Element</button>
   <button id="analyzeButton">Analyze All Prices</button>
   <p id="result"></p>
@@ -103,5 +157,4 @@
   <div id="priceList"></div>
   <script src="popup.js"></script>
 </body>
-<footer style="text-align: center; font-size: 8px; position: absolute; bottom: 0; display: block;">Created by <a href="https://www.linkedin.com/in/romyhaik/">Romy Haik</a></footer>
 </html>
