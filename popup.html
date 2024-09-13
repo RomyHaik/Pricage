@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Multi-Site Price Analyzer</title>
+  <script src="chart.js"></script>
+  <style>
+    body {
+      width: 400px;
+      padding: 15px;
+      font-family: Arial, sans-serif;
+      background-color: #f8f8f8;
+    }
+    h2 {
+      color: #333;
+      margin-bottom: 15px;
+    }
+    button {
+      background-color: #0066cc;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s;
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #result {
+      margin-top: 15px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    #chartContainer {
+      margin-top: 20px;
+      width: 100%;
+      height: 200px;
+      position: relative;
+    }
+    #chart {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+    #priceList {
+      margin-top: 20px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .price-item {
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px;
+      border-radius: 5px;
+      background-color: #f0f0f0;
+    }
+    .price-info {
+      display: flex;
+      align-items: center;
+    }
+    .jump-to {
+      padding: 2px 5px;
+      font-size: 12px;
+      margin-left: 10px;
+    }
+    .percentage-chip {
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-left: 10px;
+    }
+    .above-average {
+      background-color: #e6f4ea;
+      color: #137333;
+    }
+    .below-average {
+      background-color: #fce8e6;
+      color: #c5221f;
+    }
+    .at-average {
+      background-color: #e8eaed;
+      color: #3c4043;
+    }
+  </style>
+</head>
+<body>
+  <h2>Multi-Site Price Analyzer</h2>
+  <button id="selectElement">Select Element</button>
+  <button id="analyzeButton">Analyze All Prices</button>
+  <p id="result"></p>
+  <div id="chartContainer">
+    <canvas id="chart"></canvas>
+  </div>
+  <div id="priceList"></div>
+  <script src="popup.js"></script>
+</body>
+<footer style="text-align: center; font-size: 8px; position: absolute; bottom: 0; display: block;">Created by <a href="https://www.linkedin.com/in/romyhaik/">Romy Haik</a></footer>
+</html>
