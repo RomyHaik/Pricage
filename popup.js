@@ -1,14 +1,16 @@
 let chart;
 
 document.getElementById('selectElement').addEventListener('click', function() {
-  injectContentScriptAndSendMessage("selectElement");
+  const useEnhancedDetection = document.getElementById('detectionModeToggle').checked;
+  injectContentScriptAndSendMessage("selectElement", useEnhancedDetection);
 });
 
 document.getElementById('analyzeButton').addEventListener('click', function() {
-  injectContentScriptAndSendMessage("analyzePrices");
+  const useEnhancedDetection = document.getElementById('detectionModeToggle').checked;
+  injectContentScriptAndSendMessage("analyzePrices", useEnhancedDetection);
 });
 
-function injectContentScriptAndSendMessage(action) {
+function injectContentScriptAndSendMessage(action, useEnhancedDetection) {
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     chrome.scripting.executeScript({
       target: {tabId: tabs[0].id},
@@ -18,7 +20,7 @@ function injectContentScriptAndSendMessage(action) {
         console.error(chrome.runtime.lastError);
         return;
       }
-      chrome.tabs.sendMessage(tabs[0].id, {action: action});
+      chrome.tabs.sendMessage(tabs[0].id, {action: action, useEnhancedDetection: useEnhancedDetection});
     });
   });
 }
@@ -27,7 +29,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   if (request.action === "displayResult") {
     if (request.prices.length > 0) {
       const average = request.prices.reduce((sum, price) => sum + price.value, 0) / request.prices.length;
-      document.getElementById('result').textContent = `Average price: ${average.toFixed(2)}`;
+      document.getElementById('result').textContent = `Average price: ${average.toFixed(2)} ${request.prices[0].currency}`;
       
       updateChart(request.prices);
       displayPriceList(request.prices, average);
@@ -111,7 +113,7 @@ function displayPriceList(prices, average) {
     priceInfo.className = 'price-info';
     
     const priceValue = document.createElement('span');
-    priceValue.textContent = `${price.value.toFixed(2)}`;
+    priceValue.textContent = `${price.value.toFixed(2)} ${price.currency}`;
     priceInfo.appendChild(priceValue);
 
     const percentageDiff = ((price.value - average) / average) * 100;
